@@ -33,11 +33,15 @@ get '/weather/:z' do
 
   def coat
     if @t <= 50
-      "Bring a light coat."
+      "Wear a light coat."
     elsif @t <= 30
-      "Bring a coat and a scarf."
+      "Wear a coat and a scarf."
     end
   end
 
   "#{f.hourly.summary} #{coat}" 
+end
+
+get '/w/:z' do
+  call env.merge('PATH_INFO' => '/weather/:z')
 end
