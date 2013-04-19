@@ -2,6 +2,8 @@ require 'sinatra'
 
 require 'geocoder'
 require 'forecast_io'
+require 'google_directions'
+require 'active_support/core_ext/hash/conversions'
 
 Forecast::IO.api_key = ENV['FORECAST_KEY']
 
@@ -24,5 +26,10 @@ end
 
 get '/w/:z' do
   redirect "/weather/#{params[:z]}"
+end
+
+get '/directions' do
+  hash = Hash.from_xml(GoogleDirections.new("48170", "48104").xml.to_s)
+  raise hash.inspect
 end
 

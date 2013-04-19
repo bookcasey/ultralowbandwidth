@@ -7,3 +7,5 @@ gem 'thin'
 
 gem 'geocoder'
 gem 'forecast_io'
+
+gem 'google_directions'
