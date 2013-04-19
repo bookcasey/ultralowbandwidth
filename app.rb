@@ -14,15 +14,7 @@ before do
 end
 
 get '/' do
-  "Hi! Try /die or /dice/10"
-end
-
-get '/die' do
-  roll
-end
-
-get '/dice/:n' do
-  params[:n].to_i.times.map { roll }
+  "Try /weather/48201"
 end
 
 get '/weather/:z' do
