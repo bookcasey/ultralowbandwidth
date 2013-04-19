@@ -5,6 +5,7 @@ GEM
     daemons (1.1.9)
     eventmachine (1.0.3)
     excon (0.20.1)
+    geocoder (1.1.6)
     heroku (2.37.2)
       heroku-api (~> 0.3.7)
       launchy (>= 0.3.2)
@@ -37,6 +38,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  geocoder
   heroku
   sinatra
   thin
