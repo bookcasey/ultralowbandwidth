@@ -5,7 +5,7 @@ def roll
 end
 
 get '/' do
-  "Hi! Try /dice."
+  "Hi! Try /die or /dice/10"
 end
 
 get '/die' do
