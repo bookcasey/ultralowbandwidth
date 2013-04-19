@@ -5,7 +5,14 @@ GEM
     daemons (1.1.9)
     eventmachine (1.0.3)
     excon (0.20.1)
+    faraday (0.8.7)
+      multipart-post (~> 1.1)
+    forecast_io (1.1.0)
+      faraday
+      hashie
+      multi_json
     geocoder (1.1.6)
+    hashie (2.0.3)
     heroku (2.37.2)
       heroku-api (~> 0.3.7)
       launchy (>= 0.3.2)
@@ -17,6 +24,8 @@ GEM
     launchy (2.3.0)
       addressable (~> 2.3)
     mime-types (1.22)
+    multi_json (1.7.2)
+    multipart-post (1.2.0)
     netrc (0.7.7)
     rack (1.5.2)
     rack-protection (1.5.0)
@@ -38,6 +47,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  forecast_io
   geocoder
   heroku
   sinatra
