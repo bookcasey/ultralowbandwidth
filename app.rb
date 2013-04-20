@@ -38,6 +38,7 @@ get '/directions/:f/:t' do
   end
 
   @c = x.xpath("//copyrights").to_s
+  @pd = x.xpath("//overview_polyline//points").to_s.gsub("<points>", "").gsub("</points>", "").gsub("\\", "\\\\")
 
-  erb '<ol><% @instructions.each do |i| %><li><%= i %></li><%end%></ol> <%= @c %>'
+  erb "<img src=\"https://maps.googleapis.com/maps/api/staticmap?size=300x300&path=weight:3%7Ccolor:black%7Cenc:#{@pd}&format=jpeg&sensor=false\" ><ol><% @instructions.each do |i| %><li><%= i %></li><%end%></ol> <%= @c %>"
 end
