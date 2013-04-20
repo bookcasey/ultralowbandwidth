@@ -29,11 +29,13 @@ end
 
 get '/directions/:f/:t' do
   @instructions = []
+  
   x = Nokogiri::XML(GoogleDirections.new("48170", "48104").xml)
   x.xpath("//DirectionsResponse//route//leg//step").each do |q|
     q.xpath("html_instructions").each do |h|
       @instructions.push(h.content)
     end
   end
-  "#{@instructions}"
+
+  erb '<ol><% @instructions.each do |i| %><li><%= i %></li><%end%></ol>'
 end
