@@ -2,6 +2,7 @@ require 'sinatra'
 
 require 'geocoder'
 require 'forecast_io'
+
 require 'google_directions'
 
 Forecast::IO.api_key = ENV['FORECAST_KEY']
@@ -17,7 +18,7 @@ end
 get '/weather/:z' do
   s = Geocoder.search(params[:z])[0]
   f = Forecast::IO.forecast(s.latitude.to_s, s.longitude.to_s)
-  d =  f.daily.data[0]
+  d = f.daily.data[0]
   "#{s.address}:<br>
   #{((d.temperatureMax + d.temperatureMin)/2).ceil}&deg;F<br> 
   #{d.summary}"
@@ -30,15 +31,15 @@ end
 get '/directions/:f/:t' do
   @instructions = []
 
-  x = Nokogiri::XML(GoogleDirections.new("48170", "48104").xml)
+  x = Nokogiri::XML(GoogleDirections.new(params[:f], params[:t]).xml)
   x.xpath("//DirectionsResponse//route//leg//step").each do |q|
     q.xpath("html_instructions").each do |h|
-      @instructions.push(h.content)
+      @instructions.push(h.inner_text)
     end
   end
 
   @c = x.xpath("//copyrights").to_s
-  @pd = x.xpath("//overview_polyline//points").to_s.gsub("<points>", "").gsub("</points>", "").gsub("\\", "\\\\")
+  @pd = x.xpath("//overview_polyline//points").inner_text.gsub("\\", "\\\\")
 
-  erb "<img src=\"https://maps.googleapis.com/maps/api/staticmap?size=300x300&path=weight:3%7Ccolor:black%7Cenc:#{@pd}&format=jpeg&sensor=false\" ><ol><% @instructions.each do |i| %><li><%= i %></li><%end%></ol> <%= @c %>"
+  erb "<img src=\"https://maps.googleapis.com/maps/api/staticmap?size=600x300&style=feature:all|element:geometry|visibility:simplified|saturation:-100&style=feature:all|element:labels|saturation:-100&path=weight:3|color:red|enc:#{@pd}&format=jpeg&sensor=false\" ><ol><% @instructions.each do |i| %><li><%= i %></li><%end%></ol> <%= @c %>"
 end
