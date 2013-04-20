@@ -41,5 +41,5 @@ get '/directions/:f/:t' do
   @c = x.xpath("//copyrights").to_s
   @pd = x.xpath("//overview_polyline//points").inner_text.gsub("\\", "\\\\")
 
-  erb "<img src=\"https://maps.googleapis.com/maps/api/staticmap?size=600x300&style=feature:all|element:geometry|visibility:simplified|saturation:-100&style=feature:all|element:labels|saturation:-100&path=weight:3|color:red|enc:#{@pd}&format=jpeg&sensor=false\" ><ol><% @instructions.each do |i| %><li><%= i %></li><%end%></ol> <%= @c %>"
+  erb "<img src=\"https://maps.googleapis.com/maps/api/staticmap?size=600x300&style=feature:all|element:geometry|visibility:simplified|saturation:-100&style=feature:all|element:labels|saturation:-100&path=weight:3|color:0x000000ff|enc:#{@pd}&format=jpeg&sensor=false\" ><ol><% @instructions.each do |i| %><li><%= i %></li><%end%></ol> <%= @c %>"
 end
