@@ -34,12 +34,12 @@ get '/directions/:f/:t' do
   x = Nokogiri::XML(GoogleDirections.new(params[:f], params[:t]).xml)
   x.xpath("//DirectionsResponse//route//leg//step").each do |q|
     q.xpath("html_instructions").each do |h|
-      @instructions.push(h.inner_text)
+      @instructions.push(h.text)
     end
   end
 
   @c = x.xpath("//copyrights").to_s
-  @pd = x.xpath("//overview_polyline//points").inner_text.gsub("\\", "\\\\")
+  @pd = x.xpath("//overview_polyline//points").text.gsub("\\", "\\\\")
 
-  erb "<img src=\"https://maps.googleapis.com/maps/api/staticmap?size=600x300&style=feature:all|element:geometry|visibility:simplified|saturation:-100&style=feature:all|element:labels|saturation:-100&path=weight:3|color:0x000000ff|enc:#{@pd}&format=jpeg&sensor=false\" ><ol><% @instructions.each do |i| %><li><%= i %></li><%end%></ol> <%= @c %>"
+  erb "<img src='https://maps.googleapis.com/maps/api/staticmap?size=100x100&sensor=false&style=feature:landscape|lightness:100&style=feature:water|element:geometry.fill|lightness:-100&style=feature:poi|element:geometry.fill|lightness:100&style=element:labels.text.fill|color:0x000000&style=element:labels.text.stroke|color:0xffffff|weight:3&style=gamma:0.1|saturation:-100&path=weight:3|color:0xff0000ff|enc:#{@pd}&format=gif' ><ol><% @instructions.each do |i| %><li><%= i %></li><%end%></ol> <%= @c %>"
 end
