@@ -3,7 +3,6 @@ require 'sinatra'
 require 'geocoder'
 require 'forecast_io'
 require 'google_directions'
-require 'active_support/core_ext/hash/conversions'
 
 Forecast::IO.api_key = ENV['FORECAST_KEY']
 
@@ -28,8 +27,13 @@ get '/w/:z' do
   redirect "/weather/#{params[:z]}"
 end
 
-get '/directions' do
-  hash = Hash.from_xml(GoogleDirections.new("48170", "48104").xml.to_s)
-  raise hash.inspect
+get '/directions/:f/:t' do
+  @instructions = []
+  x = Nokogiri::XML(GoogleDirections.new("48170", "48104").xml)
+  x.xpath("//DirectionsResponse//route//leg//step").each do |q|
+    q.xpath("html_instructions").each do |h|
+      @instructions.push(h.content)
+    end
+  end
+  "#{@instructions}"
 end
-
